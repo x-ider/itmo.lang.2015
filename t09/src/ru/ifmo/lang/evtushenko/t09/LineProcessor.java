@@ -5,11 +5,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class LineProcessor {
@@ -43,18 +42,19 @@ public class LineProcessor {
                     iterator++;
                     break;
                 case "shuffle":
-                    //Collections.shuffle(stream.);
+                    listOfStrings = stream.collect(Collectors.toList());
+                    Collections.shuffle(listOfStrings);
+                    stream = listOfStrings.stream();
                     iterator++;
                     break;
                 case "filter":
                     iterator++;
                     Pattern pattern = Pattern.compile(args[iterator]);
-
+                    stream = stream.filter(i -> pattern.matcher(i).matches());
                     iterator++;
                     break;
             }
         }
-        out.println(stream.toArray());
-        out.close();
+        Files.write(Paths.get(args[1]), stream.collect(Collectors.toList()));
     }
 }
