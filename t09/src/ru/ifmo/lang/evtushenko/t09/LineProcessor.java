@@ -14,8 +14,6 @@ import java.util.stream.Stream;
 public class LineProcessor {
 
     public static void main(String[] args) throws IOException {
-        String str;
-        PrintWriter out = new PrintWriter(args[1]);
         Path input = Paths.get(args[0]);
         List<String> listOfStrings = Files.readAllLines(input);
 
